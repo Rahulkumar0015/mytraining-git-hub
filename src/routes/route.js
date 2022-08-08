@@ -11,7 +11,7 @@ router.get('/test-me', function (req, res) {
 });
 
 router.get('/students', function (req, res){
-    let students = ['Sabiha', 'Neha', 'Akash']
+    let students = ['rahul', 'Neha', 'ravi']
     res.send(students)
 })
 
