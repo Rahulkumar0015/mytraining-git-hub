@@ -24,7 +24,7 @@ router.get('/students', function (req, res){
     let movies =['kGH','DDLG','RAB NE BANA DI JODI','MS DHONI UNTOLD STORY','RAJA']
     res.send(movies)
 })
-//problem2
+//problem2 & 3
 /*Create an API GET /movies/:indexNumber 
 (For example GET /movies/1 is a valid request and it should return the movie in your array at index 1). 
 You can define an array of movies again in your api
@@ -32,23 +32,17 @@ You can define an array of movies again in your api
 /movies/2*/
 
 router.get('/movies/:indexNumber',function(req,res){
-   let movie = ['Rang de basanti', 'The shining', 'Lord of the rings', 'Batman begins']
-   let requestParams = req.params
-   let num =json.stringify(requestParams)
-   let moviesName = Object.values(requestParams)
-   if(value >= movie.length) {
-    res.send("enter a vaild number")
+   const movie = ['Rang de basanti', 'The shining', 'Lord of the rings', 'Batman begins']
+    const id  = req.params.indexNumber
+   if(id < movie.length) {
+    res.send(movie[id])
    }
    else{
-     res.send(movie[moviesName])
+     res.send("use vaild index")
    }
 
 })
-//problem 3
-/*Handle a scenario in problem 2 where if the index is greater than the valid maximum value
- a message is returned that tells the user to use a valid index in an error message.*/
-
-
+/
 
 
 
