@@ -119,38 +119,56 @@ router.post("/players/:playerName/bookings/:bookingId", function (req, res) {
 
 
 
-//==================================================================================================================//
-let person=[
-
-            {
-                "name":"pk",
-                 "age":10,
-                 votingStatus:false
-            },
-            {
-                "name":"sk",
-                 "age":20,
-                 votingStatus:false
-            },
-
-            {
-                "name":"AA",
-                 "age":70,
-                 votingStatus:false
-            },
-            {
-                "name":"SC",
-                 "age":5,
-                 votingStatus:false
-            },
-            {
-                "name":"HO",
-                 "age":40,
-                 votingStatus:false
-            },
-
+//=====================================================VOTING SOLUTION=============================================================//
+//you will be given an array of person(i.e array of obeject)..
+//each person will have a {name:string ,age:number ,votingStatus :true/false(boolean)}
+//take i/p in query params as votingAge ...and for all the pepole above that age ,change votingStaus as true
+//also returnan array consisting of only the person that can vote.
+let persons = [
+    {
+      name : "PK",
+      age : 10,
+      votingstatus : false
+    },
+    {
+        name : "Sk",
+        age : 20,
+        votingstatus : false
+    },
+    {
+        name : "AA",
+        age : 70,
+        votingstatus : false
+    },
+    {
+        name : "SC",
+        age : 5,
+        votingstatus : false
+    },
+    {
+        name : "HQ",
+        age : 40,
+        votingstatus : false
+    }
 ]
 
+router.post("/persons", function(req,res){
+    let votingAge =req.query.votingAge
+    let result=[]
+    let flag =false
+    var id
+    for (let i=0; i<persons.length; i++){
+        id=persons[i];
+        if(id.age>=18 && votingAge>=18){
+            id.votingstatus=true;
+            result.push(id)
+        }
+        
+    }
+    return res.send({data:result, status:true})
+
+    
+   })
 
 //====================================================================================================================//
 
