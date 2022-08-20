@@ -8,7 +8,10 @@ const bookSchema = new mongoose.Schema( {
         ref: "Author"
     }, 
     price: Number,
-    ratings: Number
+    ratings: Number,
+    isHardCover:{
+        default:false
+    }
 
 
 }, { timestamps: true });
