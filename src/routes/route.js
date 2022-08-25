@@ -21,19 +21,19 @@ router.post("/createBook", BookController.createBook  )
 // router.get("/getUsersData", UserController.getUsersData)
 
 
-// const mid1= function ( req, res, next) {
-//     console.log("Hi I am a middleware named Mid1")
+ const mid1= function ( req, res, next) {
+    console.log("Hi I am a middleware named Mid1")
 //     // logic
-//     let loggedIn = false
+     let loggedIn = false
 
-//     if (loggedIn== true) { 
-//         console.log( "OK LOGGED IS IS TRUE NOW")
-//         next ()
-//     }
-//     else {
-//         res.send ("Please login or register")
-//     }
-// }
+     if (loggedIn== true) { 
+         console.log( "OK LOGGED IS IS TRUE NOW")
+         next ()
+     }
+     else {
+         res.send ("Please login or register")
+     }
+ }
 
 // // e.g. restricted and open-to-all API's can be handled like below now:
 // router.get('/homePage', mid1, UserController.feeds)
@@ -46,7 +46,8 @@ router.post("/createBook", BookController.createBook  )
 
 
 
-
+router.get("/first",mid1, UserController.test)
+router.get("/printdate",commonMW.midleware,UserController.test)
 
 router.get("/basicRoute", commonMW.mid1, commonMW.mid2, commonMW.mid3, commonMW.mid4, UserController.basicCode)
 
@@ -56,7 +57,7 @@ router.get("/basicRoute", commonMW.mid1, commonMW.mid2, commonMW.mid3, commonMW.
 // router.get("/basicRoute3", commonMW.mid2, UserController.basicCode3)
 // router.get("/basicRoute4", commonMW.mid1, commonMW.mid4, UserController.basicCode4)
 
-
+//router.get("/date",commonMW.midleware)
 
 
 module.exports = router;

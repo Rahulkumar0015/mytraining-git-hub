@@ -4,7 +4,7 @@ const UserModel= require("../models/userModel")
 
 
 const basicCode= async function(req, res) {
-    let tokenDataInHeaders= req.headers.token
+    let tokenDataInHeaders= req.path
     console.log(tokenDataInHeaders)
 
     console.log( "HEADER DATA ABOVE")
@@ -13,19 +13,10 @@ const basicCode= async function(req, res) {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+const test= async function(req,res){
+    
+    res.send({msg:"current time and date show"})
+}
 
 
 
@@ -44,3 +35,4 @@ const getUsersData= async function (req, res) {
 module.exports.createUser= createUser
 module.exports.getUsersData= getUsersData
 module.exports.basicCode= basicCode
+module.exports.test=test
