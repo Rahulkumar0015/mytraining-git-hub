@@ -36,12 +36,21 @@ const createUser= async function (req, res) {
     res.header('year','2022')
     res.send({msg: "Hi"})
 }
+//====================================================================//
+
+const createUserData= async function(req,res){
+    let user=req.body
+    let userCreated= await UserModel.create(user)
+    res.send({data: userCreated})
+}
+
 
 const getUsersData= async function (req, res) {
     let allUsers= await UserModel.find()
     res.send({msg: allUsers})
 }
 
-module.exports.createUser= createUser
+//module.exports.createUser= createUser
 module.exports.getUsersData= getUsersData
 module.exports.basicCode= basicCode
+module.exports.createUserData=createUserData
