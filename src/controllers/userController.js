@@ -1,9 +1,13 @@
 const UserModel= require("../models/userModel")
 
+const usercreate= async function(req,res){
+  let data= req.body
+  let savedata= await UserModel.create(data)
+  res.send({msg:savedata})
+}
 
 
-
-const basicCode= async function(req, res, next) {
+/*const basicCode= async function(req, res, next) {
     let tokenDataInHeaders= req.headers.token
     console.log(tokenDataInHeaders)
 
@@ -40,8 +44,9 @@ const createUser= async function (req, res) {
 const getUsersData= async function (req, res) {
     let allUsers= await UserModel.find()
     res.send({msg: allUsers})
-}
+}*/
 
-module.exports.createUser= createUser
+/*module.exports.createUser= createUser
 module.exports.getUsersData= getUsersData
-module.exports.basicCode= basicCode
+module.exports.basicCode= basicCode*/
+module.exports.Usercreate= usercreate
