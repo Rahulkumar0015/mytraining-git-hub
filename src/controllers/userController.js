@@ -33,8 +33,8 @@ const loginUser = async function (req, res) {
   // The same secret will be used to decode tokens 
   let token = jwt.sign(
     {
-      userId: user._id.toString(),
-      batch: "thorium",
+      userId: user._id.toString(),//
+      batch: "plutonium",
       organisation: "FunctionUp",
     },
     "functionup-plutonium-very-very-secret-key"
