@@ -43,13 +43,8 @@ const loginUser = async function (req, res) {
 //===========================================================================================================//
 
 const getUserData = async function (req, res) {
-
-  let userId = req.params.userId;
-  let userDetails = await userModel.findById(userId);
-  if (!userDetails)
-    return res.send({ status: false, msg: "No such user exists" });
-
   res.send({ status: true, data: userDetails });
+  
 };
 //==============================================================================================================//
 const updateUser = async function (req, res) {
