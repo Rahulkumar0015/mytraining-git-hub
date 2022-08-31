@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const userModel = require("../models/userModel");
-
+//==================================================================================//
 const createUser = async function (abcd, xyz) {
   //You can name the req, res objects anything.
   //but the first parameter is always the request 
@@ -10,6 +10,7 @@ const createUser = async function (abcd, xyz) {
   console.log(abcd.newAtribute);
   xyz.send({ msg: savedData });
 };
+//========================================================================================================//
 
 const loginUser = async function (req, res) {
   let userName = req.body.emailId;
@@ -39,6 +40,7 @@ const loginUser = async function (req, res) {
   //res.setHeader("x-auth-token", token);
   res.send({ status: true, data: token });
 };
+//===========================================================================================================//
 
 const getUserData = async function (req, res) {
 
@@ -49,7 +51,7 @@ const getUserData = async function (req, res) {
 
   res.send({ status: true, data: userDetails });
 };
-
+//==============================================================================================================//
 const updateUser = async function (req, res) {
   let userId = req.params.userId;
   let user = await userModel.findById(userId);
