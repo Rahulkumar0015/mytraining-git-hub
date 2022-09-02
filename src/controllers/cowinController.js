@@ -19,7 +19,7 @@ let getStates = async function (req, res) {
     }
 }
 
-
+//===================================================================== ================================================================//
 let getDistricts = async function (req, res) {
     try {
         let id = req.params.stateId
@@ -60,7 +60,7 @@ let getByPin = async function (req, res) {
 let getOtp = async function (req, res) {
     try {
         let blahhh = req.body
-        
+
         console.log(`body is : ${blahhh} `)
         var options = {
             method: "post",
@@ -78,8 +78,46 @@ let getOtp = async function (req, res) {
     }
 }
 
+//===========================================  assignment 1 solutions  ===========================================================//
+
+
+let getDistidCenter = async function (req, res) {
+    try {
+        let DistId = req.query.district_id
+        let date = req.query.date
+        //console.log(`query params are :${DistId} ${date}`)
+        var options = {
+
+            method: "get",
+            url: `https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=${DistId}&date=${date}`
+
+        }
+
+        let result = await axios(options)
+        console.log(result)
+        let data = result.data
+        res.status(200).send({ msg: data, status: true })
+
+    }
+
+    catch (err) {
+        console.log(err)
+        res.status(500).send({ msg: err.message })
+    }
+}
+
+
+
+//=================================get the temperature only( of London) ============================================================
+
+
+
+
+
+
 
 module.exports.getStates = getStates
 module.exports.getDistricts = getDistricts
 module.exports.getByPin = getByPin
 module.exports.getOtp = getOtp
+module.exports.getDistitCenter = getDistidCenter
