@@ -12,8 +12,8 @@ const authentication = function (req, res, next) {
     let decodedToken = jwt.verify(token, "Project1-gp39");
     if (!decodedToken)
       return res.status(403).send({ status: false, msg: "InValid token" });
-    req.putAuthorId = decodedToken.userId;
-    //console.log(req.authorId)
+    req.putAuthorId = decodedToken.authorId;
+    console.log(req.putAuthorId)
 
     next();
   } catch (error) {
