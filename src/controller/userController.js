@@ -138,7 +138,7 @@ let loginUser = async function (req, res) {
 
     let date = Date.now();
     let createTime = Math.floor(date / 1000);
-    let expTime = createTime + 60;
+    let expTime = createTime + (60*60);
     
 
 
