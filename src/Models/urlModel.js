@@ -23,6 +23,10 @@ const UrlSchema = new mongoose.Schema({
         required : true,
         trim: true
     },
+    date: {
+        type: String, 
+        default: Date.now
+    }
 
 }, {timestamps : true})
 

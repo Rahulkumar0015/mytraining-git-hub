@@ -1,6 +1,6 @@
 const isValidUserData = require('../dataValidation/inputDataValidation');
 const urlModel = require("../Models/urlModel");
-
+const shortId = require("shortid");
 
 //========================================>  (( Create a url api call )) <==================================//
 
@@ -11,10 +11,34 @@ const CreateUrl = async (req, res) => {
         const { longUrl } = req.body;
 
         //Input data validation
-        let msgUserData = isValidUserData.isValidRequest(req.body)
-        if (msgUserData) {
+        let msgUserData = isValidUserData.isValidRequest(req.body) //isValidLongUrl
+        if (msgUserData) { 
             return res.status(400).send({ status: false, message: msgUserData })
         }
+
+        let msgLongUrlData = isValidUserData.isValidLongUrl(longUrl)
+        if (msgLongUrlData) {
+            return res.status(400).send({ status: false, message: msgLongUrlData })
+        }
+
+        let url = await urlModel.findOne({ longUrl });
+        if (url) {
+            console.log("Already exists...");
+            return res.status(201).send({ status: true, data: url });
+        }
+
+        // create url code
+        let urlCode = shortId.generate();
+        let shortUrl = baseUrl + "/" + urlCode;
+
+        let savedData = {
+            urlCode: urlCode,
+            longUrl: longUrl,
+            shortUrl: shortUrl,
+            date: new Date()
+        }
+        const newUrl = await urlModel.create(savedData);
+        return res.status(201).send({ status: true, message: "Saving new record...", data: newUrl })
 
     } catch (error) {
         return res.status(500).send({ status: false, message: error.message })
@@ -22,4 +46,27 @@ const CreateUrl = async (req, res) => {
 }
 
 
-module.exports = {CreateUrl}
+//========================================>  (( Render Url , api call )) <==================================//
+
+
+const renderUrl = async (req, res) => {
+    try {
+        const code = req.params.urlCode
+
+        //find urlCode
+        const url = await urlModel.findOne({ urlCode: code });
+
+        if (!url) {
+            return res.status(404).json({ message: "No url found" });
+        }
+
+        console.log("Long url found for short url. Redirecting...");
+        return res.status(302).redirect(url.longUrl);
+
+    } catch (error) {
+        return res.status(500).send({ status: false, message: error.message })
+    }
+}
+
+
+module.exports = { CreateUrl, renderUrl }

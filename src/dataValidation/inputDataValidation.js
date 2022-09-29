@@ -11,14 +11,18 @@ const isValid = (value)=> {
     if (typeof value == "string" && value.trim().length > 0) return true;
 };
 
-const isValids = (value)=> {
-    if (typeof value == "undefined" || value == null) return false;
-    if (typeof value == "number") return true;
-};
+// const isValids = (value)=> {
+//     if (typeof value == "undefined" || value == null) return false;
+//     if (typeof value == "number") return true;
+// };
 
 const isValidRequestBody = function (object) {
     return Object.keys(object).length > 0;
 };
+
+whitespace = (str)=>{
+    return str.indexOf(" ") >= 0
+}
 
 // All input data validation
 
@@ -33,8 +37,27 @@ const isValidRequest = (value) => {
     }
 }
 
+/**
+ * @param {string} value: longUrl
+ */
+
+ const isValidLongUrl = (value) => {
+
+    if (isValid(value)) {
+        return "longUrl is required and string"
+    }
+    
+    if (whitespace(value)) {
+        return "Make sure longUrl should not have space." //&& whitespace(name)
+    }
+
+    const regex = value.match(/^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm) != null
+    if (regex == false) {
+        return "please enter valid longUrl"
+    }
+
+}
 
 
 
-
-module.exports = {isValidRequest }
+module.exports = {isValidRequest, isValidLongUrl}
