@@ -1,12 +1,13 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const router = require('./routes/route.js');
 const { default: mongoose } = require('mongoose');
 const app = express();
 const connection = require("./db");
+const multer= require("multer");
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express().json());
+app.use( multer().any())
+app.use(express().urlencoded({ extended: true }));
 
 
 
