@@ -9,7 +9,6 @@ const UrlSchema = new mongoose.Schema({
         lowercase: true, 
         trim : true 
     },
-
     longUrl: {
         type : String,
         required : true,
@@ -17,15 +16,10 @@ const UrlSchema = new mongoose.Schema({
         lowercase: true, 
         trim : true 
     },
-
     shortUrl: {
         type : String,
         required : true,
         trim: true
-    },
-    date: {
-        type: String, 
-        default: Date.now
     }
 
 }, {timestamps : true})

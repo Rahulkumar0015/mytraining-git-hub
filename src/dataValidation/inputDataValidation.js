@@ -1,5 +1,6 @@
-const mongoose = require('mongoose')
-const ObjectId = mongoose.Schema.Types.ObjectId
+// const mongoose = require('mongoose')
+var validUrl = require('valid-url');
+  
 
 
 /** 
@@ -8,7 +9,7 @@ const ObjectId = mongoose.Schema.Types.ObjectId
 
 const isValid = (value)=> {
     if (typeof value == "undefined" || value == null) return false;
-    if (typeof value == "string" && value.trim().length > 0) return true;
+    if (typeof value == "string" && value.trim().length > 0) return true; 
 };
 
 // const isValids = (value)=> {
@@ -20,8 +21,8 @@ const isValidRequestBody = function (object) {
     return Object.keys(object).length > 0;
 };
 
-whitespace = (str)=>{
-    return str.indexOf(" ") >= 0
+whitespace = (value)=>{
+    return value.indexOf(" ") >= 0 
 }
 
 // All input data validation
@@ -43,7 +44,7 @@ const isValidRequest = (value) => {
 
  const isValidLongUrl = (value) => {
 
-    if (isValid(value)) {
+    if (!isValid(value)) {
         return "longUrl is required and string"
     }
     
@@ -51,9 +52,9 @@ const isValidRequest = (value) => {
         return "Make sure longUrl should not have space." //&& whitespace(name)
     }
 
-    const regex = value.match(/^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm) != null
-    if (regex == false) {
-        return "please enter valid longUrl"
+    let data = validUrl.isUri(value)
+    if (!data) {
+        return `please enter valid longUrl`
     }
 
 }

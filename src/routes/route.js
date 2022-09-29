@@ -21,5 +21,10 @@ router.get("/:urlCode", urlController.renderUrl)
 
 
 
+// router.all("/**",  (req, res) => {
+//     return res.status(400).send({ status: false, msg: "Invalid api." })
+// });
+
+
 
 module.exports = router;

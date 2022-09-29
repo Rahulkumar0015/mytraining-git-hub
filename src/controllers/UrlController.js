@@ -1,7 +1,7 @@
 const isValidUserData = require('../dataValidation/inputDataValidation');
 const urlModel = require("../Models/urlModel");
 const shortId = require("shortid");
-
+require('dotenv').config();
 //========================================>  (( Create a url api call )) <==================================//
 
 
@@ -23,19 +23,17 @@ const CreateUrl = async (req, res) => {
 
         let url = await urlModel.findOne({ longUrl });
         if (url) {
-            console.log("Already exists...");
-            return res.status(201).send({ status: true, data: url });
+            return res.status(201).send({ status: true,message:"Already exists...",  data: url });
         }
 
         // create url code
-        let urlCode = shortId.generate();
-        let shortUrl = baseUrl + "/" + urlCode;
+        let urlCode = shortId.generate(); 
+        let shortUrl = process.env.baseUrl + urlCode; 
 
         let savedData = {
             urlCode: urlCode,
             longUrl: longUrl,
-            shortUrl: shortUrl,
-            date: new Date()
+            shortUrl: shortUrl
         }
         const newUrl = await urlModel.create(savedData);
         return res.status(201).send({ status: true, message: "Saving new record...", data: newUrl })
