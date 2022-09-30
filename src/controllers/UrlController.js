@@ -21,13 +21,13 @@ const CreateUrl = async (req, res) => {
             return res.status(400).send({ status: false, message: msgLongUrlData })
         }
 
-        let url = await urlModel.findOne({ longUrl });
+        let url = await urlModel.findOne({ longUrl }).select({urlCode: 1, longUrl:1, shortUrl:1, _id: 0})
         if (url) {
             return res.status(201).send({ status: true,message:"Already exists...",  data: url });
         }
 
         // create url code
-        let urlCode = shortId.generate(); 
+        let urlCode = shortId.generate().toLowerCase(); 
         let shortUrl = process.env.baseUrl + urlCode; 
 
         let savedData = {
@@ -35,8 +35,8 @@ const CreateUrl = async (req, res) => {
             longUrl: longUrl,
             shortUrl: shortUrl
         }
-        const newUrl = await urlModel.create(savedData);
-        return res.status(201).send({ status: true, message: "Saving new record...", data: newUrl })
+        await urlModel.create(savedData);
+        return res.status(201).send({ status: true, message: "Saving new record...", data: savedData })
 
     } catch (error) {
         return res.status(500).send({ status: false, message: error.message })
@@ -55,7 +55,7 @@ const renderUrl = async (req, res) => {
         const url = await urlModel.findOne({ urlCode: code });
 
         if (!url) {
-            return res.status(404).json({ message: "No url found" });
+            return res.status(404).send({ message: "No url found" });
         }
 
         console.log("Long url found for short url. Redirecting...");
