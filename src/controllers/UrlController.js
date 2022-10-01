@@ -4,7 +4,6 @@ const shortId = require("shortid");
 require('dotenv').config();
 //========================================>  (( Create a url api call )) <==================================//
 
-
 const CreateUrl = async (req, res) => {
     try {
         // using destructuring of body data.
@@ -52,7 +51,6 @@ const renderUrl = async (req, res) => {
 
         //find urlCode
         const url = await urlModel.findOne({ urlCode: code });
-
         if (!url) {
             return res.status(404).send({ message: "No url found" });
         }

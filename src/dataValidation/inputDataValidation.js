@@ -6,7 +6,6 @@ const isValid = (value)=> {
     if (typeof value == "string" && value.trim().length > 0) return true; 
 };
 
-
 const isValidRequestBody = function (object) {
     return Object.keys(object).length > 0;
 };
