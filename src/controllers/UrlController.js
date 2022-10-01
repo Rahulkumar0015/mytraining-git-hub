@@ -9,7 +9,7 @@ const CreateUrl = async (req, res) => {
     try {
         // using destructuring of body data.
         const { longUrl } = req.body;
-
+        if(!longUrl)return res.status(400).send("please enter longUrl for shorting")
         //Input data validation
         let msgUserData = isValidUserData.isValidRequest(req.body) //isValidLongUrl
         if (msgUserData) { 
@@ -25,7 +25,6 @@ const CreateUrl = async (req, res) => {
         if (url) {
             return res.status(201).send({ status: true,message:"Already exists...",  data: url });
         }
-
         // create url code
         let urlCode = shortId.generate().toLowerCase(); 
         let shortUrl = process.env.baseUrl + urlCode; 
