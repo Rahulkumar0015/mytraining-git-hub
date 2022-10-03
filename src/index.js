@@ -5,8 +5,6 @@ const { default: mongoose } = require('mongoose');
 const app = express();
 const connection = require("./db");
 
-
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
