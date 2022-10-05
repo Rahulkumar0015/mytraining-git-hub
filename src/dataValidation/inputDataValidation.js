@@ -22,19 +22,20 @@ const isValidRequest = (value) => {
     }
 }
 
+
  const isValidLongUrl = (value) => {
 
     if (!isValid(value)) {
-        return "longUrl is required and string"
+        return res.status(400).send("longUrl is required and string")
     }
     
     if (whitespace(value)) {
-        return "Make sure longUrl should not have space." //&& whitespace(name)
+        return res.status(400).send("Make sure longUrl should not have space.") //&& whitespace(name)
     }
 
-    let data = validUrl.isUri(value)
+    let data = validUrl.isWebUri(value)
     if (!data) {
-        return `please enter valid longUrl`
+        return res.status(400).send(`please enter valid longUrl`)
     }
 
 }

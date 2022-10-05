@@ -2,6 +2,7 @@ const isValidUserData = require("../dataValidation/inputDataValidation");
 const urlModel = require("../Models/urlModel");
 const shortId = require("shortid");
 require("dotenv").config();
+const axios = require("axios")
 const { SET_ASYNC, GET_ASYNC } = require("../../src/redis");
 //========================================>  (( Create a url api call )) <==================================//
 
@@ -12,6 +13,11 @@ const CreateUrl = async (req, res) => {
     if (!longUrl)
       return res.status(400).send("please enter longUrl for shorting");
     //Input data validation
+    try{
+    let result = await axios.get(longUrl)}
+    catch(error){
+      return res.status(400).send("Please enter valid url")
+    }
     let msgUserData = isValidUserData.isValidRequest(req.body); //isValidLongUrl
     if (msgUserData) {
       return res.status(400).send({ status: false, message: msgUserData });
@@ -27,7 +33,7 @@ const CreateUrl = async (req, res) => {
       .select({ urlCode: 1, longUrl: 1, shortUrl: 1, _id: 0 });
     if (url) {
       return res
-        .status(201)
+        .status(403)
         .send({ status: true, message: "Already exists...", data: url });
     }
     // create url code
