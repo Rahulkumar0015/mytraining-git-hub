@@ -18,7 +18,7 @@ whitespace = (value)=>{
 const isValidRequest = (value) => {
     // if body empty
     if (!isValidRequestBody(value)) {
-        return "data is required";
+        return res.status(400).send("data is required");
     }
 }
 
