@@ -67,7 +67,7 @@ const renderUrl = async (req, res) => {
     //find urlCode
     const url = await urlModel.findOne({ urlCode: code });
     if (!url) {
-      return res.status(404).send({ message: "No url found" });
+      return res.status(404).send({ status:false,message: "No url found" });
     }
     let cahcedProfileData = await GET_ASYNC(`${code}`);
     cahcedProfileData = JSON.parse(cahcedProfileData)
