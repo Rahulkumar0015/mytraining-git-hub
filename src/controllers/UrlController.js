@@ -11,7 +11,7 @@ const CreateUrl = async (req, res) => {
     // using destructuring of body data.
     const { longUrl } = req.body;
     if (!longUrl)
-      return res.status(400).send("please enter longUrl for shorting");
+      return res.status(400).send({status:false,message:"please enter longUrl for shorting"});
     //Input data validation
     let correctLink = false
     await axios.get(longUrl)
@@ -28,14 +28,14 @@ const CreateUrl = async (req, res) => {
       return res.status(400).send({ status: false, message: msgLongUrlData });
     }
 
-     // let url = await urlModel.findOne({ longUrl }).select({ urlCode: 1, longUrl: 1, shortUrl: 1, _id: 0 })
+     // checking in cached data
 
      let cahcedProfileData = await GET_ASYNC(`${longUrl}`);
      cahcedProfileData = JSON.parse(cahcedProfileData) 
       if (cahcedProfileData) {
          return res.status(201).send({ status: true, message: "Already exists...", data: cahcedProfileData });
      }
-
+//checking in db
      let url = await urlModel.findOne({ longUrl }).select({ urlCode: 1, longUrl: 1, shortUrl: 1, _id: 0 })
      if (url) {
       return res.status(201).send({ status: true, message: "Already exists...", data: url });
@@ -64,19 +64,18 @@ const renderUrl = async (req, res) => {
   try {
     const code = req.params.urlCode;
 
-    //find urlCode
-    const url = await urlModel.findOne({ urlCode: code });
-    if (!url) {
-      return res.status(404).send({ status:false,message: "No url found" });
-    }
     let cahcedProfileData = await GET_ASYNC(`${code}`);
     cahcedProfileData = JSON.parse(cahcedProfileData)
 
     if (cahcedProfileData) {
       return res.status(301).redirect(cahcedProfileData.longUrl);
     } else {
+    const url = await urlModel.findOne({ urlCode: code });
+    if (!url) {
+      return res.status(404).send({ status:false,message: "No url found" });
+    }
       await SET_ASYNC(`${code}`, JSON.stringify(url));
-      console.log("Long url found for short url. Redirecting...");
+      // console.log("Long url found for short url. Redirecting...");
       return res.status(302).redirect(url.longUrl);
     }
   } catch (error) {

@@ -18,7 +18,7 @@ whitespace = (value)=>{
 const isValidRequest = (value) => {
     // if body empty
     if (!isValidRequestBody(value)) {
-        return res.status(400).send("data is required");
+        return res.status(400).send({status:false,message:"data is required"});
     }
 }
 
@@ -26,16 +26,16 @@ const isValidRequest = (value) => {
  const isValidLongUrl = (value) => {
 
     if (!isValid(value)) {
-        return res.status(400).send("longUrl is required and string")
+        return res.status(400).send({status:false,message:"longUrl is required and string"})
     }
     
     if (whitespace(value)) {
-        return res.status(400).send("Make sure longUrl should not have space.") //&& whitespace(name)
+        return res.status(400).send({status:false,message:"Make sure longUrl should not have space."}) //&& whitespace(name)
     }
 
     let data = validUrl.isWebUri(value)
     if (!data) {
-        return res.status(400).send(`please enter valid longUrl`)
+        return res.status(400).send({status:false,message:`please enter valid longUrl`})
     }
 
 }
