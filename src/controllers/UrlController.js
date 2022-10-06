@@ -13,11 +13,11 @@ const CreateUrl = async (req, res) => {
     if (!longUrl)
       return res.status(400).send("please enter longUrl for shorting");
     //Input data validation
-    try{
-    let result = await axios.get(longUrl)}
-    catch(error){
-      return res.status(400).send("Please enter valid url")
-    }
+    let correctLink = false
+    await axios.get(longUrl)
+        .then((res) => { if (res.status == 200 || res.status == 201) correctLink = true; })
+        .catch((error) => { correctLink = false })
+    if (correctLink == false) return res.status(400).send({ status: false, message: "invalid url please enter valid url!!" });
     let msgUserData = isValidUserData.isValidRequest(req.body); //isValidLongUrl
     if (msgUserData) {
       return res.status(400).send({ status: false, message: msgUserData });
@@ -32,11 +32,14 @@ const CreateUrl = async (req, res) => {
 
      let cahcedProfileData = await GET_ASYNC(`${longUrl}`);
      cahcedProfileData = JSON.parse(cahcedProfileData) 
-
-      f (cahcedProfileData) {
+      if (cahcedProfileData) {
          return res.status(201).send({ status: true, message: "Already exists...", data: cahcedProfileData });
      }
 
+     let url = await urlModel.findOne({ longUrl }).select({ urlCode: 1, longUrl: 1, shortUrl: 1, _id: 0 })
+     if (url) {
+      return res.status(201).send({ status: true, message: "Already exists...", data: url });
+  }
       // create url code
       let urlCode = shortId.generate().toLowerCase();
       let shortUrl = process.env.baseUrl + urlCode;
