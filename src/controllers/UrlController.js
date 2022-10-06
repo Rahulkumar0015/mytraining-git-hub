@@ -28,27 +28,28 @@ const CreateUrl = async (req, res) => {
       return res.status(400).send({ status: false, message: msgLongUrlData });
     }
 
-    let url = await urlModel
-      .findOne({ longUrl })
-      .select({ urlCode: 1, longUrl: 1, shortUrl: 1, _id: 0 });
-    if (url) {
-      return res
-        .status(403)
-        .send({ status: true, message: "Already exists...", data: url });
-    }
-    // create url code
-    let urlCode = shortId.generate().toLowerCase();
-    let shortUrl = process.env.baseUrl + urlCode;
+     // let url = await urlModel.findOne({ longUrl }).select({ urlCode: 1, longUrl: 1, shortUrl: 1, _id: 0 })
 
-    let savedData = {
-      urlCode: urlCode,
-      longUrl: longUrl,
-      shortUrl: shortUrl,
-    };
+     let cahcedProfileData = await GET_ASYNC(`${longUrl}`);
+     cahcedProfileData = JSON.parse(cahcedProfileData) 
+
+      f (cahcedProfileData) {
+         return res.status(201).send({ status: true, message: "Already exists...", data: cahcedProfileData });
+     }
+
+      // create url code
+      let urlCode = shortId.generate().toLowerCase();
+      let shortUrl = process.env.baseUrl + urlCode;
+
+     let savedData = {
+         urlCode: urlCode,
+         longUrl: longUrl,
+         shortUrl: shortUrl
+    }
     await urlModel.create(savedData);
-    return res
-      .status(201)
-      .send({ status: true, message: "Saving new record...", data: savedData });
+    await SET_ASYNC(`${longUrl}`, JSON.stringify(savedData));
+    return res.status(201).send({ status: true, message: "Saving new record...", data: savedData })
+    
   } catch (error) {
     return res.status(500).send({ status: false, message: error.message });
   }
